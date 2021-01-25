@@ -7,6 +7,8 @@ pub struct Opts {
     pub crate_name: String,
     #[clap(short, long)]
     pub install: bool,
+    #[clap(long)]
+    pub version: Option<String>,
 }
 
 #[tracing::instrument]
