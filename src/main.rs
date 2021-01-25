@@ -15,7 +15,6 @@ fn main() -> Result<()> {
 
     let tempdir = tempfile::tempdir()?;
     let crate_path = crates_io::crate_path(tempdir.path(), latest);
-    println!("{}", crate_path.display());
 
     crates_io::unpack_crate(tempdir.path(), latest)?;
 
