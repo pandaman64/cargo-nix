@@ -29,6 +29,7 @@ fn downloads(dl_path: &str) -> String {
     format!("{}{}", CRATES_IO_ROOT, dl_path)
 }
 
+#[tracing::instrument]
 pub fn retrieve_crate_versions(crate_name: &str) -> Result<Versions> {
     ureq::get(&versions(crate_name))
         .set("User-Agent", "cargo-nix")
@@ -37,6 +38,7 @@ pub fn retrieve_crate_versions(crate_name: &str) -> Result<Versions> {
         .map_err(Into::into)
 }
 
+#[tracing::instrument]
 pub fn unpack_crate(base: &Path, version: &Version) -> Result<()> {
     let krate = ureq::get(&downloads(&version.dl_path))
         .set("User-Agent", "cargo-nix")
@@ -46,6 +48,7 @@ pub fn unpack_crate(base: &Path, version: &Version) -> Result<()> {
     krate.unpack(base).map_err(Into::into)
 }
 
+#[tracing::instrument]
 pub fn crate_path(base: &Path, version: &Version) -> PathBuf {
     let mut buf = base.to_path_buf();
     buf.push(format!("{}-{}", version.krate, version.num));

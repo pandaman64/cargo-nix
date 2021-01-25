@@ -1,10 +1,14 @@
-pub type Result<T, E = anyhow::Error> = anyhow::Result<T, E>;
-
 mod crates_io;
 mod nix;
+mod opts;
+
+pub type Result<T, E = anyhow::Error> = anyhow::Result<T, E>;
 
 fn main() -> Result<()> {
-    let crate_name = "ripgrep";
+    tracing_subscriber::fmt::init();
+
+    let opts = opts::parse();
+    let crate_name = &opts.crate_name;
 
     let versions = crates_io::retrieve_crate_versions(crate_name)?;
     let latest = &versions.versions[0];

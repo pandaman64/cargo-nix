@@ -2,7 +2,8 @@ use super::Result;
 
 use std::{path::Path, process::Command};
 
-pub fn crate2nix<P: AsRef<Path>>(path: P) -> Result<()> {
+#[tracing::instrument]
+pub fn crate2nix(path: &Path) -> Result<()> {
     Command::new("crate2nix")
         .args(&["generate"])
         .current_dir(path)
@@ -11,7 +12,8 @@ pub fn crate2nix<P: AsRef<Path>>(path: P) -> Result<()> {
     Ok(())
 }
 
-pub fn nix_build<P: AsRef<Path>>(path: P) -> Result<()> {
+#[tracing::instrument]
+pub fn nix_build(path: &Path) -> Result<()> {
     Command::new("nix-build")
         .args(&["-A", "rootCrate.build", "Cargo.nix"])
         .current_dir(path)
