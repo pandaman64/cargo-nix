@@ -2,10 +2,33 @@ mod crates_io;
 mod nix;
 mod opts;
 
+pub use color_eyre::eyre as anyhow;
 pub type Result<T, E = anyhow::Error> = anyhow::Result<T, E>;
 
+fn install_hooks() -> Result<()> {
+    use tracing_subscriber::prelude::*;
+
+    // Install hook for tracing.
+    // Nice formatter
+    let fmt = tracing_subscriber::fmt::layer();
+    // Filtering with RUST_LOG
+    let filter = tracing_subscriber::EnvFilter::from_default_env();
+    // SpanTrace for the error location
+    let trace = tracing_error::ErrorLayer::default();
+    tracing_subscriber::registry()
+        .with(filter)
+        .with(fmt)
+        .with(trace)
+        .init();
+
+    // Install color-eyre
+    color_eyre::install()?;
+
+    Ok(())
+}
+
 fn main() -> Result<()> {
-    tracing_subscriber::fmt::init();
+    install_hooks()?;
 
     let opts = opts::parse();
     let crate_name = &opts.crate_name;
