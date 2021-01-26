@@ -1,4 +1,4 @@
-use std::ffi::OsString;
+use std::{ffi::OsString, path::PathBuf};
 
 use clap::Clap;
 
@@ -9,6 +9,8 @@ pub struct Opts {
     pub install: bool,
     #[clap(long)]
     pub version: Option<String>,
+    #[clap(long)]
+    pub build_dir: Option<PathBuf>,
 }
 
 #[tracing::instrument]

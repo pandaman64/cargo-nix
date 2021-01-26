@@ -2,6 +2,8 @@ mod crates_io;
 mod nix;
 mod opts;
 
+use std::path::{Path, PathBuf};
+
 pub use color_eyre::eyre as anyhow;
 pub type Result<T, E = anyhow::Error> = anyhow::Result<T, E>;
 
@@ -28,9 +30,9 @@ fn install_hooks() -> Result<()> {
 }
 
 #[tracing::instrument]
-fn find_version(crate_name: &str, version: &Option<String>) -> Result<crates_io::Version> {
+fn find_version(crate_name: &str, version: Option<&str>) -> Result<crates_io::Version> {
     let versions = crates_io::retrieve_crate_versions(crate_name)?;
-    match version.as_deref() {
+    match version {
         // By default, pick the latest version.
         None => versions
             .versions
@@ -45,18 +47,30 @@ fn find_version(crate_name: &str, version: &Option<String>) -> Result<crates_io:
     }
 }
 
+#[tracing::instrument]
+fn unpack_crate(build_dir: &Path, version: &crates_io::Version) -> Result<PathBuf> {
+    crates_io::unpack_crate(&build_dir, &version)?;
+    let crate_path = crates_io::crate_path(&build_dir, &version);
+
+    Ok(crate_path)
+}
+
 fn main() -> Result<()> {
     install_hooks()?;
 
     let opts = opts::parse();
     let crate_name = &opts.crate_name;
+    let tempdir;
+    let build_dir = match &opts.build_dir {
+        None => {
+            tempdir = tempfile::tempdir()?;
+            tempdir.path()
+        }
+        Some(path) => path,
+    };
 
-    let version = find_version(crate_name, &opts.version)?;
-
-    let tempdir = tempfile::tempdir()?;
-    let crate_path = crates_io::crate_path(tempdir.path(), version);
-
-    crates_io::unpack_crate(tempdir.path(), version)?;
+    let version = find_version(crate_name, opts.version.as_deref())?;
+    let crate_path = unpack_crate(build_dir, &version)?;
 
     nix::crate2nix(&crate_path)?;
     nix::nix_build(&crate_path)?;
