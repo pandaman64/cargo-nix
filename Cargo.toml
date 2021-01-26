@@ -6,6 +6,10 @@ edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+description = "Build Rust crates with Nix."
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/pandaman64/cargo-nix"
+
 [dependencies]
 ureq = { version = "2.0.1", features = ["json"] }
 serde = { version = "1.0.118", features = ["derive"] }
