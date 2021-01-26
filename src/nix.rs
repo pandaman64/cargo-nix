@@ -5,6 +5,8 @@ use std::{
     process::{Command, Stdio},
 };
 
+use color_eyre::Help;
+
 #[tracing::instrument]
 pub fn crate2nix(package_dir: &Path, nixpkgs: Option<&Path>) -> Result<()> {
     let mut command = Command::new("crate2nix");
@@ -13,7 +15,13 @@ pub fn crate2nix(package_dir: &Path, nixpkgs: Option<&Path>) -> Result<()> {
         command.args(&["--nixpkgs-path".as_ref(), nixpkgs]);
     }
 
-    anyhow::ensure!(command.status()?.success(), "failed to run crate2nix");
+    anyhow::ensure!(
+        command.status()?.success(),
+        anyhow::anyhow!("failed to complete crate2nix").suggestion(
+            "if you find a crate that cannot be built with `cargo-nix`,
+please file an issue at https://github.com/pandaman64/cargo-nix/issues/new."
+        )
+    );
 
     Ok(())
 }
@@ -28,7 +36,13 @@ pub fn nix_build(path: &Path) -> Result<Vec<u8>> {
         .current_dir(path)
         .output()?;
 
-    anyhow::ensure!(output.status.success(), "failed to run nix-build");
+    anyhow::ensure!(
+        output.status.success(),
+        anyhow::anyhow!("failed to complete nix-build").suggestion(
+            "if you find a crate that cannot be built with `cargo-nix`,
+please file an issue at https://github.com/pandaman64/cargo-nix/issues/new."
+        )
+    );
 
     Ok(output.stdout)
 }
