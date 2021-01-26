@@ -6,11 +6,13 @@ use std::{
 };
 
 #[tracing::instrument]
-pub fn crate2nix(path: &Path) -> Result<()> {
-    Command::new("crate2nix")
-        .args(&["generate"])
-        .current_dir(path)
-        .status()?;
+pub fn crate2nix(package_dir: &Path, nixpkgs: Option<&Path>) -> Result<()> {
+    let mut command = Command::new("crate2nix");
+    command.arg("generate").current_dir(package_dir);
+    if let Some(nixpkgs) = nixpkgs {
+        command.args(&["--nixpkgs-path".as_ref(), nixpkgs]);
+    }
+    command.status()?;
 
     Ok(())
 }

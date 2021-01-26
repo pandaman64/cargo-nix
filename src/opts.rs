@@ -11,6 +11,8 @@ pub struct Opts {
     pub version: Option<String>,
     #[clap(long)]
     pub build_dir: Option<PathBuf>,
+    #[clap(short, long)]
+    pub nixpkgs: Option<PathBuf>,
 }
 
 #[tracing::instrument]
