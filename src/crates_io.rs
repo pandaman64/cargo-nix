@@ -20,6 +20,7 @@ pub struct Versions {
 }
 
 const CRATES_IO_ROOT: &str = "https://crates.io";
+const USER_AGENT: &str = "cargo-nix";
 
 fn versions(crate_name: &str) -> String {
     format!("{}/api/v1/crates/{}/versions", CRATES_IO_ROOT, crate_name)
@@ -32,7 +33,7 @@ fn downloads(dl_path: &str) -> String {
 #[tracing::instrument]
 pub fn retrieve_crate_versions(crate_name: &str) -> Result<Versions> {
     ureq::get(&versions(crate_name))
-        .set("User-Agent", "cargo-nix")
+        .set("User-Agent", USER_AGENT)
         .call()?
         .into_json()
         .map_err(Into::into)
@@ -41,7 +42,7 @@ pub fn retrieve_crate_versions(crate_name: &str) -> Result<Versions> {
 #[tracing::instrument]
 pub fn unpack_crate(base: &Path, version: &Version) -> Result<()> {
     let krate = ureq::get(&downloads(&version.dl_path))
-        .set("User-Agent", "cargo-nix")
+        .set("User-Agent", USER_AGENT)
         .call()?
         .into_reader();
     let mut krate = Archive::new(GzDecoder::new(krate));
