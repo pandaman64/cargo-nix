@@ -27,22 +27,31 @@ fn install_hooks() -> Result<()> {
     Ok(())
 }
 
+#[tracing::instrument]
+fn find_version(crate_name: &str, version: &Option<String>) -> Result<crates_io::Version> {
+    let versions = crates_io::retrieve_crate_versions(crate_name)?;
+    match version.as_deref() {
+        // By default, pick the latest version.
+        None => versions
+            .versions
+            .into_iter()
+            .next()
+            .ok_or_else(|| anyhow::anyhow!("latest version not found")),
+        Some(s) => versions
+            .versions
+            .into_iter()
+            .find(|v| v.num == s)
+            .ok_or_else(|| anyhow::anyhow!("specified version not found")),
+    }
+}
+
 fn main() -> Result<()> {
     install_hooks()?;
 
     let opts = opts::parse();
     let crate_name = &opts.crate_name;
 
-    let versions = crates_io::retrieve_crate_versions(crate_name)?;
-    let version = match opts.version {
-        // By default, pick the latest version.
-        None => &versions.versions[0],
-        Some(s) => versions
-            .versions
-            .iter()
-            .find(|v| v.num == s)
-            .ok_or_else(|| anyhow::anyhow!("specified version not found"))?,
-    };
+    let version = find_version(crate_name, &opts.version)?;
 
     let tempdir = tempfile::tempdir()?;
     let crate_path = crates_io::crate_path(tempdir.path(), version);
