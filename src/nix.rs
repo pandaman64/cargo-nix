@@ -1,4 +1,4 @@
-use super::Result;
+use super::{anyhow, Result};
 
 use std::{
     path::Path,
@@ -12,7 +12,8 @@ pub fn crate2nix(package_dir: &Path, nixpkgs: Option<&Path>) -> Result<()> {
     if let Some(nixpkgs) = nixpkgs {
         command.args(&["--nixpkgs-path".as_ref(), nixpkgs]);
     }
-    command.status()?;
+
+    anyhow::ensure!(command.status()?.success(), "failed to run crate2nix");
 
     Ok(())
 }
@@ -27,14 +28,18 @@ pub fn nix_build(path: &Path) -> Result<Vec<u8>> {
         .current_dir(path)
         .output()?;
 
+    anyhow::ensure!(output.status.success(), "failed to run nix-build");
+
     Ok(output.stdout)
 }
 
 #[tracing::instrument]
 pub fn install(path: &Path) -> Result<()> {
-    Command::new("nix-env")
+    let status = Command::new("nix-env")
         .args(&["-i".as_ref(), path])
         .status()?;
+
+    anyhow::ensure!(status.success(), "failed to run `nix-env -i`");
 
     Ok(())
 }
