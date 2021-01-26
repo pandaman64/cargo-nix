@@ -4,6 +4,7 @@ mod opts;
 
 use std::path::{Path, PathBuf};
 
+use bstr::ByteSlice;
 pub use color_eyre::eyre as anyhow;
 pub type Result<T, E = anyhow::Error> = anyhow::Result<T, E>;
 
@@ -73,7 +74,11 @@ fn main() -> Result<()> {
     let crate_path = unpack_crate(build_dir, &version)?;
 
     nix::crate2nix(&crate_path)?;
-    nix::nix_build(&crate_path)?;
+    let output = nix::nix_build(&crate_path)?;
+    println!("{}", String::from_utf8_lossy(&output));
+    if opts.install {
+        nix::install(output.trim().to_path()?)?;
+    }
 
     Ok(())
 }
