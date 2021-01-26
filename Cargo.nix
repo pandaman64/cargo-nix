@@ -326,7 +326,7 @@ rec {
       };
       "cargo-nix" = rec {
         crateName = "cargo-nix";
-        version = "0.1.0";
+        version = "0.1.0-mvp";
         edition = "2018";
         crateBin = [
           { name = "cargo-nix"; path = "src/main.rs"; }

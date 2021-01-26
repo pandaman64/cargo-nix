@@ -1,6 +1,6 @@
 [package]
 name = "cargo-nix"
-version = "0.1.0"
+version = "0.1.0-mvp"
 authors = ["pandaman64 <kointosudesuyo@infoseek.jp>"]
 edition = "2018"
 
