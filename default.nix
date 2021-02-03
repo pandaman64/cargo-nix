@@ -1,8 +1,8 @@
 # A derivation for the wrapper shell script
 # taken from: https://nixos.wiki/wiki/Nix_Cookbook
-{ pkgs ? import ./nix/nixpkgs.nix { } }:
+{ pkgs ? import nix/nixpkgs.nix { } }:
 let
-  sources = import ./nix/sources.nix;
+  sources = import nix/sources.nix;
   crate2nix = pkgs.callPackage sources.crate2nix { };
   cargoNix = pkgs.callPackage (import ./Cargo.nix) { };
 in cargoNix.rootCrate.build.overrideAttrs
