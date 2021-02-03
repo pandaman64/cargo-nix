@@ -34,11 +34,11 @@ fn install_hooks() -> Result<()> {
 fn find_version(crate_name: &str, version: Option<&str>) -> Result<crates_io::Version> {
     let versions = crates_io::retrieve_crate_versions(crate_name)?;
     match version {
-        // By default, pick the latest version.
+        // By default, pick the latest non-yanked version.
         None => versions
             .versions
             .into_iter()
-            .next()
+            .find(|v| !v.yanked)
             .ok_or_else(|| anyhow::anyhow!("latest version not found")),
         Some(s) => versions
             .versions

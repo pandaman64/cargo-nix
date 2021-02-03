@@ -12,6 +12,7 @@ pub struct Version {
     #[serde(rename = "crate")]
     pub krate: String,
     pub num: String,
+    pub yanked: bool,
 }
 
 #[derive(Debug, Deserialize)]
