@@ -3,8 +3,11 @@
 { pkgs ? import nix/nixpkgs.nix { } }:
 let
   sources = import nix/sources.nix;
+  # CR pandaman: the upstream seems to produce buildRustCrate deprecation warning.
+  # resolve this CR if the upstream fixes it.
   crate2nix = pkgs.callPackage sources.crate2nix { };
-  cargoNix = pkgs.callPackage (import ./Cargo.nix) { };
+  # buildRustCrate seems deprecated
+  cargoNix = pkgs.callPackage (import ./Cargo.nix) { buildRustCrate = null; };
 in cargoNix.rootCrate.build.overrideAttrs
 (oldAttrs: {
   buildInputs = (oldAttrs.buildInputs or []) ++ [
