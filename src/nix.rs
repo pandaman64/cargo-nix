@@ -50,7 +50,7 @@ pub fn install(path: &Path) -> Result<()> {
         .args(&["-i".as_ref(), path])
         .status()?;
 
-    anyhow::ensure!(status.success(), "failed to run `nix-env -i`");
+    anyhow::ensure!(status.success(), "failed to complete `nix-env -i`");
 
     Ok(())
 }
