@@ -5,10 +5,10 @@
         "homepage": "",
         "owner": "kolloch",
         "repo": "crate2nix",
-        "rev": "7ebbf53ae02c11166e743c734b4a7525f49d977d",
-        "sha256": "04sj1qklqiq7fhydrcygpx3bwlgncxq2ncqhzmfl62pyv280286m",
+        "rev": "509918492f7c5e6cff1697e1857a383f46bf6a76",
+        "sha256": "0bfms9w3bamf3p8bw6ha6dgdzl5b3zjnm6qi9qspkwh09llyxhkf",
         "type": "tarball",
-        "url": "https://github.com/kolloch/crate2nix/archive/7ebbf53ae02c11166e743c734b4a7525f49d977d.tar.gz",
+        "url": "https://github.com/kolloch/crate2nix/archive/509918492f7c5e6cff1697e1857a383f46bf6a76.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "niv": {
@@ -24,15 +24,15 @@
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     },
     "nixpkgs": {
-        "branch": "nixos-20.09",
+        "branch": "nixos-unstable",
         "description": "Nix Packages collection",
         "homepage": "",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a058d005b3cbb370bf171ebce01839dd6ff52222",
-        "sha256": "154mpqw0ya31hzgz9hggg1rb26yx8d00rsj9l90ndsdldrssgvbb",
+        "rev": "fab6fcdceb2560a4ab943830a2b1632458c7a6ff",
+        "sha256": "1bszj8anac9saszpcr6xg78mmly3biq030g53rc2fyrmfbr0sfik",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs/archive/a058d005b3cbb370bf171ebce01839dd6ff52222.tar.gz",
+        "url": "https://github.com/NixOS/nixpkgs/archive/fab6fcdceb2560a4ab943830a2b1632458c7a6ff.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }
