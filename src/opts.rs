@@ -13,6 +13,8 @@ pub struct Opts {
     pub build_dir: Option<PathBuf>,
     #[clap(short, long)]
     pub nixpkgs: Option<PathBuf>,
+    #[clap(long)]
+    pub cargo2nix: bool,
 }
 
 #[tracing::instrument]

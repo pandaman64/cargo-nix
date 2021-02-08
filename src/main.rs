@@ -74,11 +74,21 @@ fn main() -> Result<()> {
     let crate_path = unpack_crate(build_dir, &version)?;
 
     let nixpkgs = opts.nixpkgs.map(|p| std::fs::canonicalize(p)).transpose()?;
-    nix::crate2nix(&crate_path, nixpkgs.as_deref())?;
-    let output = nix::nix_build(&crate_path)?;
-    println!("{}", String::from_utf8_lossy(&output));
-    if opts.install {
-        nix::install(output.trim().to_path()?)?;
+
+    if opts.cargo2nix {
+        nix::cargo2nix(&crate_path, nixpkgs.as_deref(), crate_name)?;
+        let output = nix::cargo2nix_build(&crate_path)?;
+        println!("{}", String::from_utf8_lossy(&output));
+        if opts.install {
+            nix::install(output.trim().to_path()?)?;
+        }
+    } else {
+        nix::crate2nix(&crate_path, nixpkgs.as_deref())?;
+        let output = nix::nix_build(&crate_path)?;
+        println!("{}", String::from_utf8_lossy(&output));
+        if opts.install {
+            nix::install(output.trim().to_path()?)?;
+        }
     }
 
     Ok(())
