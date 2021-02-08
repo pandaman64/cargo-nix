@@ -73,7 +73,7 @@ fn main() -> Result<()> {
     let version = find_version(crate_name, opts.version.as_deref())?;
     let crate_path = unpack_crate(build_dir, &version)?;
 
-    let nixpkgs = opts.nixpkgs.map(|p| std::fs::canonicalize(p)).transpose()?;
+    let nixpkgs = opts.nixpkgs.map(std::fs::canonicalize).transpose()?;
     nix::crate2nix(&crate_path, nixpkgs.as_deref())?;
     let output = nix::nix_build(&crate_path)?;
     println!("{}", String::from_utf8_lossy(&output));
