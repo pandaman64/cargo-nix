@@ -1,4 +1,16 @@
 {
+    "cargo2nix": {
+        "branch": "master",
+        "description": "Build Rust crates with Nix",
+        "homepage": "",
+        "owner": "cargo2nix",
+        "repo": "cargo2nix",
+        "rev": "0dec2a8d6313347dfd183f3cd52aa9d3b43e7ed2",
+        "sha256": "045cfvvwirlyp0h36ppbpp8ygqj3nzwzxgmsijh5cm9ilslxm3ym",
+        "type": "tarball",
+        "url": "https://github.com/cargo2nix/cargo2nix/archive/0dec2a8d6313347dfd183f3cd52aa9d3b43e7ed2.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
     "crate2nix": {
         "branch": "master",
         "description": "nix build file generator for rust crates",
@@ -33,6 +45,18 @@
         "sha256": "1bszj8anac9saszpcr6xg78mmly3biq030g53rc2fyrmfbr0sfik",
         "type": "tarball",
         "url": "https://github.com/NixOS/nixpkgs/archive/fab6fcdceb2560a4ab943830a2b1632458c7a6ff.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs-mozilla": {
+        "branch": "master",
+        "description": "mozilla related nixpkgs (extends nixos/nixpkgs repo)",
+        "homepage": "",
+        "owner": "mozilla",
+        "repo": "nixpkgs-mozilla",
+        "rev": "8c007b60731c07dd7a052cce508de3bb1ae849b4",
+        "sha256": "1zybp62zz0h077zm2zmqs2wcg3whg6jqaah9hcl1gv4x8af4zhs6",
+        "type": "tarball",
+        "url": "https://github.com/mozilla/nixpkgs-mozilla/archive/8c007b60731c07dd7a052cce508de3bb1ae849b4.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }

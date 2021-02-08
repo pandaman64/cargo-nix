@@ -1,20 +1,26 @@
-# A derivation for the wrapper shell script
-# taken from: https://nixos.wiki/wiki/Nix_Cookbook
-{ pkgs ? import nix/nixpkgs.nix { } }:
+{ system ? builtins.currentSystem, sources ? import nix/sources.nix
+, nixpkgs ? sources.nixpkgs, nixpkgsMozilla ? sources.nixpkgs-mozilla
+, cargo2nix ? sources.cargo2nix, crate2nix ? sources.crate2nix }:
 let
-  sources = import nix/sources.nix;
-  # CR pandaman: the upstream seems to produce buildRustCrate deprecation warning.
-  # resolve this CR if the upstream fixes it.
+  rustOverlay = import "${nixpkgsMozilla}/rust-overlay.nix";
+  cargo2nixOverlay = import "${cargo2nix}/overlay";
+  pkgs = import nixpkgs {
+    inherit system;
+    overlays = [ rustOverlay cargo2nixOverlay ];
+  };
   crate2nix = pkgs.callPackage sources.crate2nix { };
-  # buildRustCrate seems deprecated
-  cargoNix = pkgs.callPackage (import ./Cargo.nix) { buildRustCrate = null; };
-in cargoNix.rootCrate.build.overrideAttrs
-(oldAttrs: {
-  buildInputs = (oldAttrs.buildInputs or []) ++ [
-    pkgs.makeWrapper
-  ];
-  postInstall = (oldAttrs.postInstall or "") + ''
-    wrapProgram $out/bin/cargo-nix \
+  rustPkgs = pkgs.rustBuilder.makePackageSet' {
+    rustChannel = "stable";
+    packageFun = import ./Cargo.nix;
+  };
+
+  cargoNix = rustPkgs.workspace.cargo-nix { };
+in pkgs.stdenv.mkDerivation {
+  name = "cargo-nix";
+  unpackPhase = "true";
+  buildInputs = [ pkgs.makeWrapper ];
+  installPhase = ''
+    makeWrapper ${cargoNix}/bin/cargo-nix $out/bin/cargo-nix \
       --prefix PATH : ${crate2nix}/bin
   '';
-})
+}
