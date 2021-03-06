@@ -8,11 +8,15 @@ let
   crate2nix = pkgs.callPackage sources.crate2nix { };
   # buildRustCrate seems deprecated
   cargoNix = pkgs.callPackage (import ./Cargo.nix) { buildRustCrate = null; };
-in cargoNix.rootCrate.build.overrideAttrs
-(oldAttrs: {
-  buildInputs = (oldAttrs.buildInputs or []) ++ [
-    pkgs.makeWrapper
-  ];
+in cargoNix.rootCrate.build.overrideAttrs (oldAttrs: {
+  buildInputs = (oldAttrs.buildInputs or [ ]) ++ [ pkgs.makeWrapper ]
+    ++ (pkgs.lib.optionals pkgs.stdenv.isDarwin [
+      pkgs.darwin.apple_sdk.frameworks.Security
+      pkgs.darwin.apple_sdk.frameworks.CoreServices
+      pkgs.darwin.apple_sdk.frameworks.CoreFoundation
+      pkgs.darwin.apple_sdk.frameworks.Foundation
+      pkgs.darwin.apple_sdk.frameworks.AppKit
+    ]);
   postInstall = (oldAttrs.postInstall or "") + ''
     wrapProgram $out/bin/cargo-nix \
       --prefix PATH : ${crate2nix}/bin
