@@ -16,6 +16,7 @@ in cargoNix.rootCrate.build.overrideAttrs (oldAttrs: {
       pkgs.darwin.apple_sdk.frameworks.CoreFoundation
       pkgs.darwin.apple_sdk.frameworks.Foundation
       pkgs.darwin.apple_sdk.frameworks.AppKit
+      pkgs.libiconv
     ]);
   postInstall = (oldAttrs.postInstall or "") + ''
     wrapProgram $out/bin/cargo-nix \

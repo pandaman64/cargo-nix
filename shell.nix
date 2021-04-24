@@ -10,5 +10,6 @@ in pkgs.mkShell {
       pkgs.darwin.apple_sdk.frameworks.CoreFoundation
       pkgs.darwin.apple_sdk.frameworks.Foundation
       pkgs.darwin.apple_sdk.frameworks.AppKit
+      pkgs.libiconv
     ]);
 }
