@@ -89,9 +89,9 @@ rec {
     crates = {
       "addr2line" = rec {
         crateName = "addr2line";
-        version = "0.15.1";
+        version = "0.15.2";
         edition = "2015";
-        sha256 = "0npvsn4hg8mvy10lig4j9sanscdclv7nqrczdmmphgcgmyc5wd03";
+        sha256 = "0fkz8sgwp9lbhzfch89wimn4qx16a8l62vfx07hrw85y3xxf98p7";
         authors = [
           "Nick Fitzgerald <fitzgen@gmail.com>"
           "Philip Craig <philipjcraig@gmail.com>"
@@ -189,9 +189,9 @@ rec {
       };
       "backtrace" = rec {
         crateName = "backtrace";
-        version = "0.3.59";
+        version = "0.3.60";
         edition = "2018";
-        sha256 = "0i570lldf0ijdq9vn7s83vwfirvshd8kjigq93ys0qd6zb5wy5s7";
+        sha256 = "10kjrb4b3kjx6g4mkmcwjg4dimmzpsn7iq3225wix0jd9sjmx0dp";
         authors = [
           "The Rust Project Developers"
         ];
@@ -303,27 +303,15 @@ rec {
       };
       "bumpalo" = rec {
         crateName = "bumpalo";
-        version = "3.6.1";
+        version = "3.7.0";
         edition = "2018";
-        sha256 = "1gndni6ng6z1v14lq5zgm1k2y9320w4bc2ijzgyz9qwx9f56nfb3";
+        sha256 = "0ccn025n0x1gc0ijjlabin2xs7dkx5yfagkskr93yw9c06pyfncw";
         authors = [
           "Nick Fitzgerald <fitzgen@gmail.com>"
         ];
         features = {
         };
         resolvedDefaultFeatures = [ "default" ];
-      };
-      "byteorder" = rec {
-        crateName = "byteorder";
-        version = "1.4.3";
-        edition = "2018";
-        sha256 = "0456lv9xi1a5bcm32arknf33ikv76p3fr9yzki4lb2897p2qkh8l";
-        authors = [
-          "Andrew Gallant <jamslam@gmail.com>"
-        ];
-        features = {
-          "default" = [ "std" ];
-        };
       };
       "cargo-nix" = rec {
         crateName = "cargo-nix";
@@ -388,10 +376,10 @@ rec {
       };
       "cc" = rec {
         crateName = "cc";
-        version = "1.0.67";
+        version = "1.0.68";
         edition = "2018";
         crateBin = [];
-        sha256 = "1z9p27ys80shv09zhknmlal8jjra78agdwg97i6jjd6lg83rpip3";
+        sha256 = "11ypa8b7iwhjf5fg5j3hvbn2116h9g8v67vyd9s7ljgzq52c4wja";
         authors = [
           "Alex Crichton <alex@alexcrichton.com>"
         ];
@@ -800,9 +788,9 @@ rec {
       };
       "getrandom" = rec {
         crateName = "getrandom";
-        version = "0.2.2";
+        version = "0.2.3";
         edition = "2018";
-        sha256 = "1j1jcwahnkn45kapq9i5nvw2s5hcfmp1zpjx0fzl0wcy4w2mfjf9";
+        sha256 = "0lr7mnkvnzdh1xxmwmhhbm4gwg29k3m2rzhpjmjm4k2jcfa9kkbz";
         authors = [
           "The Rand Project Developers"
         ];
@@ -864,9 +852,9 @@ rec {
       };
       "heck" = rec {
         crateName = "heck";
-        version = "0.3.2";
+        version = "0.3.3";
         edition = "2018";
-        sha256 = "1b56s2c1ymdd0qmy31bw0ndhm31hcdamnhg3npp7ssrmc1ag9jw7";
+        sha256 = "0b0kkr790p66lvzn9nsmfjvydrbmh9z5gb664jchwgw64vxiwqkd";
         authors = [
           "Without Boats <woboats@gmail.com>"
         ];
@@ -1003,9 +991,9 @@ rec {
       };
       "libc" = rec {
         crateName = "libc";
-        version = "0.2.94";
+        version = "0.2.96";
         edition = "2015";
-        sha256 = "0phs3ivwq2hmwgwd9nwy3b5jbqcipbgr6pdmj3vj34xjsn54ly8q";
+        sha256 = "1z5l4rdk44sx1vaq69x1mbwi5zh75q46p2hkl90ihhn5xzkb802n";
         authors = [
           "The Rust Project Developers"
         ];
@@ -1153,12 +1141,19 @@ rec {
       };
       "object" = rec {
         crateName = "object";
-        version = "0.24.0";
+        version = "0.25.2";
         edition = "2018";
-        sha256 = "0w21hp41mixzaavsdpjylbylh44z2b5d2wbnf5ipkvkjq38ksnqs";
+        sha256 = "0ppv9zyr33cwxji6aa0gpx8ibwrw32brxj9rz7q3dwvw0i11vg7q";
         authors = [
           "Nick Fitzgerald <fitzgen@gmail.com>"
           "Philip Craig <philipjcraig@gmail.com>"
+        ];
+        dependencies = [
+          {
+            name = "memchr";
+            packageId = "memchr";
+            usesDefaultFeatures = false;
+          }
         ];
         features = {
           "all" = [ "read" "write" "std" "compression" "default" ];
@@ -1167,6 +1162,7 @@ rec {
           "pe" = [ "coff" ];
           "read" = [ "read_core" "archive" "coff" "elf" "macho" "pe" "unaligned" ];
           "rustc-dep-of-std" = [ "core" "compiler_builtins" "alloc" ];
+          "std" = [ "memchr/std" ];
           "wasm" = [ "wasmparser" ];
           "write" = [ "write_core" "coff" "elf" "macho" ];
           "write_core" = [ "crc32fast" "indexmap" "std" ];
@@ -1315,9 +1311,9 @@ rec {
       };
       "proc-macro2" = rec {
         crateName = "proc-macro2";
-        version = "1.0.26";
+        version = "1.0.27";
         edition = "2018";
-        sha256 = "1v4w5jchgsssr727iyv986r8jaw6z80bzlhqgrbp78nw2lr02lm1";
+        sha256 = "0f3h0zl5w5090ajmmvpmhkpr4iwqnn5rip3afacabhc657vwmn7h";
         authors = [
           "Alex Crichton <alex@alexcrichton.com>"
           "David Tolnay <dtolnay@gmail.com>"
@@ -1523,18 +1519,13 @@ rec {
       };
       "regex-automata" = rec {
         crateName = "regex-automata";
-        version = "0.1.9";
+        version = "0.1.10";
         edition = "2015";
-        sha256 = "1r3aqa9c0s9sfrmd2w0mli16ldjzbar0rzb1x7srfjkasrqys7df";
+        sha256 = "0ci1hvbzhrfby5fdpf4ganhf7kla58acad9i1ff1p34dzdrhs8vc";
         authors = [
           "Andrew Gallant <jamslam@gmail.com>"
         ];
         dependencies = [
-          {
-            name = "byteorder";
-            packageId = "byteorder";
-            usesDefaultFeatures = false;
-          }
           {
             name = "regex-syntax";
             packageId = "regex-syntax";
@@ -1915,9 +1906,9 @@ rec {
       };
       "tar" = rec {
         crateName = "tar";
-        version = "0.4.33";
+        version = "0.4.35";
         edition = "2018";
-        sha256 = "0a7jjp9lqyqz2fd5q5ryqffhhr9xzygld0hd4zd1ydlqlpbgpg60";
+        sha256 = "100v082cda6g8a237vrnpf075pqr7z46wrhgawa960pzmv39sxvx";
         authors = [
           "Alex Crichton <alex@alexcrichton.com>"
         ];
@@ -2366,9 +2357,9 @@ rec {
       };
       "unicode-normalization" = rec {
         crateName = "unicode-normalization";
-        version = "0.1.17";
+        version = "0.1.19";
         edition = "2018";
-        sha256 = "1vzajca1hk9plka5d3z3426frmnr7229fd2kidz58zd9r3hzryq7";
+        sha256 = "1yabhmg8zlcksda3ajly9hpbzqgbhknxwch8dwkfkaa1569r0ifm";
         authors = [
           "kwantam <kwantam@gmail.com>"
           "Manish Goregaokar <manishsmail@gmail.com>"
@@ -3398,9 +3389,11 @@ rec {
      testCrateFlags: list of flags to pass to the test exectuable
      testInputs: list of packages that should be available during test execution
   */
-  crateWithTest = { crate, testCrate, testCrateFlags, testInputs }:
+  crateWithTest = { crate, testCrate, testCrateFlags, testInputs, testPreRun, testPostRun }:
     assert builtins.typeOf testCrateFlags == "list";
     assert builtins.typeOf testInputs == "list";
+    assert builtins.typeOf testPreRun == "string";
+    assert builtins.typeOf testPostRun == "string";
     let
       # override the `crate` so that it will build and execute tests instead of
       # building the actual lib and bin targets We just have to pass `--test`
@@ -3414,6 +3407,15 @@ rec {
                 buildTests = true;
               }
             );
+          # If the user hasn't set any pre/post commands, we don't want to
+          # insert empty lines. This means that any existing users of crate2nix
+          # don't get a spurious rebuild unless they set these explicitly.
+          testCommand = pkgs.lib.concatStringsSep "\n"
+            (pkgs.lib.filter (s: s != "") [
+              testPreRun
+              "$f $testCrateFlags 2>&1 | tee -a $out"
+              testPostRun
+            ]);
         in
         pkgs.runCommand "run-tests-${testCrate.name}"
           {
@@ -3447,7 +3449,7 @@ rec {
           for file in ${drv}/tests/*; do
             f=$testRoot/$(basename $file)-$hash
             cp $file $f
-            $f $testCrateFlags 2>&1 | tee -a $out
+            ${testCommand}
           done
         '';
     in
@@ -3471,6 +3473,10 @@ rec {
     , runTests ? false
     , testCrateFlags ? [ ]
     , testInputs ? [ ]
+      # Any command to run immediatelly before a test is executed.
+    , testPreRun ? ""
+      # Any command run immediatelly after a test is executed.
+    , testPostRun ? ""
     }:
     lib.makeOverridable
       (
@@ -3479,6 +3485,8 @@ rec {
         , runTests
         , testCrateFlags
         , testInputs
+        , testPreRun
+        , testPostRun
         }:
         let
           buildRustCrateForPkgsFuncOverriden =
@@ -3511,13 +3519,13 @@ rec {
                 {
                   crate = drv;
                   testCrate = testDrv;
-                  inherit testCrateFlags testInputs;
+                  inherit testCrateFlags testInputs testPreRun testPostRun;
                 }
             else drv;
         in
         derivation
       )
-      { inherit features crateOverrides runTests testCrateFlags testInputs; };
+      { inherit features crateOverrides runTests testCrateFlags testInputs testPreRun testPostRun; };
 
   /* Returns an attr set with packageId mapped to the result of buildRustCrateForPkgsFunc
      for the corresponding crate.
